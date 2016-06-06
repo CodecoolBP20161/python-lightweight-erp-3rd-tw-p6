@@ -26,11 +26,14 @@ def print_table(table, title_list):
 # (0) Exit program
 #
 # see the function call in main.py
+
 def print_menu(title, list_options, exit_message):
-
-    # your code
-
-    pass
+    print("%s:" %(title))
+    line = 1
+    for i in list_options:
+        print("(%s) %s" %(line,i))
+        line +=1
+    print("(%s) %s" %(0,exit_message))
 
 
 # see the function call in main.py
