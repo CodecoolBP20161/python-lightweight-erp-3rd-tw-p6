@@ -1,3 +1,5 @@
+from data_manager import *
+import random
 # implement commonly used functions here
 
 
@@ -5,7 +7,17 @@
 # (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter) string
 # it must be unique in the list
 def generate_random(table):
-
-    # your code
-
-    pass
+    lower = "abcdefghijklmnopqrstuvwxyz"
+    chars = "[!@#$%^&*()?]"
+    existing_id = [i[0] for i in table]
+    num = [random.randint(0, 9) for i in range(2)]
+    letter = [lower[random.randint(0, len(lower) - 1)] for i in range(2)]
+    letter_upper = [lower[random.randint(
+        0, len(lower) - 1)].upper() for i in range(2)]
+    special = [chars[random.randint(0, len(chars) - 1)] for i in range(2)]
+    a = num + letter + letter_upper + special
+    password = "".join(str(i) for i in a)
+    if password not in existing_id:
+        return password
+    else:
+        return generate_random(table)
