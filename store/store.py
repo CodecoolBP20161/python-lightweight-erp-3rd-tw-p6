@@ -16,19 +16,23 @@ ui = SourceFileLoader("module.name", current_file_path + "/../ui.py").load_modul
 # data manager module
 data_manager = SourceFileLoader("module.name", current_file_path + "/../data_manager.py").load_module()
 
+table = data_manager.get_table_from_file("games.csv")
+
 
 # start this manager by a menu
 def start():
-
-    # you code
-
-    pass
+    title = "Store menu:"
+    list_options = ["Show table",
+                    "Add",
+                    "Remove",
+                    "Update",
+                    "Get count by manufacturers",
+                    "Get average by manufacturer"]
+    exit_message = "Exit menu"
 
 
 # print the default table of records from the file
 def show_table(table):
-
-    # your code
 
     pass
 
