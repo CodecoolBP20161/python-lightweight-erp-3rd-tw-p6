@@ -27,12 +27,7 @@ def print_table(table, title_list):
 #
 # see the function call in main.py
 
-title = "Title"
-list_options = ['a', 'b', 'c']
-exit_message = "Bye"
-
-
-def print_menu(title, list_options, exit_message):
+def print_menu(title='Title', list_options=['a', 'b', 'c'], exit_message="Back"):
     print("%s:" % (title))
     line = 1
     for i in list_options:
@@ -40,7 +35,6 @@ def print_menu(title, list_options, exit_message):
         line += 1
     print("(%s) %s" % (0, exit_message))
 
-print_menu(title, list_options, exit_message)
 
 # see the function call in main.py
 
