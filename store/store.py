@@ -16,8 +16,6 @@ ui = SourceFileLoader("module.name", current_file_path + "/../ui.py").load_modul
 # data manager module
 data_manager = SourceFileLoader("module.name", current_file_path + "/../data_manager.py").load_module()
 
-table = data_manager.get_table_from_file("games.csv")
-
 
 # start this manager by a menu
 def start():
