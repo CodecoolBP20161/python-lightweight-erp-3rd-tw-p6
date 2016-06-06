@@ -27,21 +27,28 @@ def print_table(table, title_list):
 #
 # see the function call in main.py
 
+title = "Title"
+list_options = ['a', 'b', 'c']
+exit_message = "Bye"
+
+
 def print_menu(title, list_options, exit_message):
-    print("%s:" %(title))
+    print("%s:" % (title))
     line = 1
     for i in list_options:
-        print("(%s) %s" %(line,i))
-        line +=1
-    print("(%s) %s" %(0,exit_message))
+        print("(%s) %s" % (line, i))
+        line += 1
+    print("(%s) %s" % (0, exit_message))
 
+print_menu(title, list_options, exit_message)
 
 # see the function call in main.py
+
+
 def get_inputs(list_titles, title):
-    record = []
-
+    print(title)
+    record = [input(i) for i in list_titles]
     # your code
-
     return record
 
 
