@@ -1,4 +1,3 @@
-from data_manager import *
 import random
 # implement commonly used functions here
 
