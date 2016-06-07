@@ -8,6 +8,8 @@ from copy import deepcopy
 # |--------|----------------|---------|
 # |   1    |       fo       |    fps  |
 # \-----------------------------------/
+
+
 def print_table(table, title_list):
     """ Pretty prints a table. """
     table = deepcopy(table)
