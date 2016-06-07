@@ -13,7 +13,7 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 
 
 def start():
-    table = data_manager.get_table_from_file("hr/persons.csv")
+    table = data_manager.get_table_from_file("hr/persons_test.csv")
     title = "HR Abteilung"
     list_options = ["Show table", "Add", "Remove", "Update", "Get oldest person", "Get people closest to average age"]
     ui.print_menu(title, list_options, "Exit")
@@ -49,10 +49,11 @@ def start():
 
 def show_table(table):
     """ Prints the default table of records from the file. """
-    print(table)
-    for row in table:
-        printable = "{0} {1} {2}".format(row[0], row[1], row[2])
-        print(printable)
+    ui.print_table(table, ["id", "name", "birth date"])
+    # print(table)
+    # for row in table:
+    #     printable = "{0} {1} {2}".format(row[0], row[1], row[2])
+    #     print(printable)
 
 
 def add(table):

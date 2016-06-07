@@ -14,30 +14,78 @@ current_file_path = os.path.dirname(os.path.abspath(__file__))
 ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 # data manager module
 data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
-
-
-def print_test():
-    print('test')
+# common module
+common = SourceFileLoader("common", current_file_path + "/../data_manager.py").load_module()
 
 
 # start this manager by a menu
 def start():
-    print_test()
-    print('I am in CRM module')
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    id_ = 'this needs to be changed in each function when called as necessary'
+
+    while True:
+        handle_menu()
+        try:
+            choose(table, id_)
+        except KeyError as err:
+            ui.print_error_message(err)
+        except ValueError:
+            break
+
+    data_manager.write_table_to_file("crm/customers.csv", table)
+
+
+def handle_menu():
+    options = ['Show',
+               'Add',
+               'Remove',
+               'Update',
+               'ID of Longest Name',
+               'Subscribed e-mails']
+
+    ui.print_menu('\n~~CUSTOMERS~~', options, "Back to Main Menu")
+
+
+def choose(table, id_):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    if option == '1':
+        show_table(table)
+    elif option == '2':
+        add(table)
+    elif option == '3':
+        remove(table, id_)
+    elif option == '4':
+        update(table, id_)
+    elif option == '5':
+        get_longest_name_id(table)
+    elif option == '6':
+        get_subscribed_emails(table)
+    elif option == '0':
+        raise ValueError
+    else:
+        raise KeyError("There is no such option.")
 
 
 # print the default table of records from the file
 def show_table(table):
 
-    # your code
-
-    pass
+    ui.print_table(table, ['ID', 'NAME', 'E-MAIL', 'SUBSCRIBED'])
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 def add(table):
 
-    # your code
+    table.append([common.generate_random(table)])
+
+    field_names = ['Customer\'s full name: ',
+                   'Customer\'s e-mail address: ',
+                   'Is the Customer subscribed to the newsletter?\nWrite 0 for NO or 1 for YES: ']
+
+    new_record = ui.get_inputs(field_names, "\n Anwser these questions to add a new customer:")
+
+    for field in new_record:
+        table[-1].append(field)
 
     return table
 

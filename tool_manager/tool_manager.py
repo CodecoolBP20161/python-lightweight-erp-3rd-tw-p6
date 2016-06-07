@@ -19,18 +19,21 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
+table = data_manager.get_table_from_file("tool_manager/tools.csv")
+
+
 # start this manager by a menu
 def start():
 
     while True:
-
-        user = input("Please choose a number:\nshow-table - 1\nadd - 2\nremove - 3\nupdate - 4\nquit - 0\n")
+        ui.print_menu(title="Options", list_options=["Show-table", "Add", "Remove", "Update"], exit_message="Quit")
+        user = ui.get_inputs(list_titles=["Please choose a number: "], title="")[0]
         if user == "0":
             break
         elif user == "1":
-            show_table("tools_test.csv")
+            show_table("tool_manager/tools.csv")
         elif user == "2":
-            add("tools_test.csv")
+            add(table)
         elif user == "3":
             update(table, id_)
         elif user == "4":
@@ -39,20 +42,23 @@ def start():
 
 # print the default table of records from the file
 def show_table(table):
-    table = data_manager.get_table_from_file("tools_test.csv")
-    title_list = ["id", "name", "manufacturer", "purchase_date", "durability"]
+    table = data_manager.get_table_from_file("tool_manager/tools.csv")
+    title_list = ["Id", "Name", "Manufacturer", "Purchase_date", "Durability"]
     return ui.print_table(table, title_list)
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 def add(table):
-    table = data_manager.get_table_from_file("tools_test.csv")
+    user = ui.get_inputs(list_titles=["Name: ", "Manufacturer: ", "Purchase-date: ", "Durability: "], title="")
+    id_number = common.generate_random(table)
+    user.insert(0, id_number)
+    table.append(user)
+    data_manager.write_table_to_file("tool_manager/tools.csv", table)
 
 
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
-
-    # your code
+    # user = ui.get_inputs(list_titles=["name: ", "manufacturer: ", "purchase-date: ", "durability: "], title="")
 
     return table
 

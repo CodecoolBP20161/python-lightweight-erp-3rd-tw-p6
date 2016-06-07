@@ -61,8 +61,12 @@ def start():
 
 # print the default table of records from the file
 def show_table(table):
-
-    pass
+    title_list = ["ID",
+                  "Title",
+                  "Manufacturer",
+                  "Price",
+                  "In stock"]
+    ui.print_table(table, title_list)
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
@@ -123,7 +127,7 @@ def update(table, id_):
     else:
         raise KeyError("There is no such option.")
     for element in table:
-        if element[0] == added_input[0]:
+        if element[0] == id_[0]:
             element = selected_element
     data_manager.write_table_to_file("store/games.csv", table)
     return table
@@ -152,5 +156,5 @@ def get_average_by_manufacturer(table, manufacturer):
     for i in table:
         if i[2] == manufacturer[0]:
                 manufacturer_all_games_list.append(int(i[4]))
-    manufacturer_avg_num = sum(manufacturer_all_games_list) / len(manufacturer_all_games_list)
+    manufacturer_avg_num = common.summary(manufacturer_all_games_list) / len(manufacturer_all_games_list)
     return manufacturer_avg_num
