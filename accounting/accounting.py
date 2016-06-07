@@ -16,62 +16,91 @@ current_file_path = os.path.dirname(os.path.abspath(__file__))
 ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 # data manager module
 data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
+# common module
+common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
 # start this manager by a menu
 def start():
     """ Creates a submenu for accounting.py """
     while True:
-        user_input = input("""(0) Go back to main menu
-(1) Show table
-(2) Add new item
-(3) Remove item
-(4) Update item
-""")
+        ui.print_menu(title='Accounting manager',
+                      list_options=['Show table', 'Add new item', 'Remove item', 'Update item'],
+                      exit_message="Back to MainMenu")
+        user_input = ui.get_inputs(list_titles=["Please, choose a number: "], title="")[0]
         if user_input == "0":
             break
         elif user_input == "1":
-            show_table("items.csv")
+            show_table("accounting/accounting/items.csv")
         elif user_input == "2":
-            add("items.csv")
+            add("accounting/items.csv")
         elif user_input == "3":
-            remove("items.csv", id_)
+            list_titles = ["Id_: "]
+            record = ui.get_inputs(list_titles, title="")
+            remove("accounting/items.csv", record)
         elif user_input == "4":
-            update("items.csv", id_)
+            list_titles = ["Id_: "]
+            record = ui.get_inputs(list_titles, title="")
+            update("accounting/items.csv", record)
         else:
-            ui.print_error_message("Not an option!")
+            ui.print_error_message("Invalid input!")
 
 
 # print the default table of records from the file
 def show_table(table):
-
-    # your code
-
-    pass
+    """ Shows the accounting/items.csv database """
+    table = data_manager.get_table_from_file("accounting/items.csv")
+    title_list = ["id", "month", "day", "year", "type", "amount"]
+    return ui.print_table(table, title_list)
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 def add(table):
-
-    # your code
-
+    """ Adds a new row to the database """
+    id_input = common.generate_random("accounting/items.csv")
+    list_titles = ["Month: ", "Day: ", "Year: ", "Type: ", "Amount: "]
+    record = ui.get_inputs(list_titles, title="")
+    record.insert(0, id_input)
+    table = data_manager.get_table_from_file("accounting/items.csv")
+    table = table + [record]
+    table = data_manager.write_table_to_file("accounting/items.csv", table)
     return table
 
 
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
-
-    # your code
-
+    """ Removes a certain row from the database identified by id_ """
+    table = data_manager.get_table_from_file("accounting/items.csv")
+    existing_id = [i[0] for i in table]
+    id_ = ''.join(id_)
+    if id_ in existing_id:
+        id_index = existing_id.index(id_)
+        table.remove(table[id_index])
+        table = data_manager.write_table_to_file("accounting/items.csv", table)
+    else:
+        ui.print_error_message("Invalid input!")
     return table
 
 
 # Update the record in @table having the id @id_ by asking the new data from the user,
 # than return the @table
 def update(table, id_):
-
-    # your code
-
+    """ Removes a certain row from the database identified by id_ """
+    table = data_manager.get_table_from_file("accounting/items.csv")
+    existing_id = [i[0] for i in table]
+    id_ = ''.join(id_)
+    if id_ in existing_id:
+        id_index = existing_id.index(id_)
+        list_titles = ["Month: ", "Day: ", "Year: ", "Type: ", "Amount: "]
+        updated_inputs = ui.get_inputs(list_titles, title="")
+        table[id_index][1] = updated_inputs[0]
+        table[id_index][2] = updated_inputs[1]
+        table[id_index][3] = updated_inputs[2]
+        table[id_index][4] = updated_inputs[3]
+        table[id_index][5] = updated_inputs[4]
+        table = data_manager.write_table_to_file("accounting/items.csv", table)
+    else:
+        ui.print_error_message("Invalid input!")
     return table
 
 
