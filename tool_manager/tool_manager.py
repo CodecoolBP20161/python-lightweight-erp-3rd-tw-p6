@@ -22,25 +22,35 @@ common = SourceFileLoader("module.name", current_file_path + "/../common.py").lo
 # start this manager by a menu
 def start():
 
-    # you code
+    while True:
 
-    pass
+        user = input("Please choose a number:\nshow-table - 1\nadd - 2\nremove - 3\nupdate - 4\nquit - 0\n")
+        if user == "0":
+            break
+        elif user == "1":
+            show_table("tools_test.csv")
+        elif user == "2":
+            add("tools_test.csv")
+        elif user == "3":
+            update(table, id_)
+        elif user == "4":
+            get_available_tools(table)
+
+
+start()
 
 
 # print the default table of records from the file
 def show_table(table):
-
-    # your code
-
-    pass
+    table = data_manager.get_table_from_file("tools_test.csv")
+    title_list = ["id", "name", "manufacturer", "purchase_date", "durability"]
+    return ui.print_table(table, title_list)
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 def add(table):
+    table = data_manager.get_table_from_file("tools_test.csv")
 
-    # your code
-
-    return table
 
 
 # Remove the record having the id @id_ from the @list, than return @table
