@@ -34,13 +34,13 @@ def start():
     while True:
         user_input = ui.get_inputs(["Press a number between 0 - 4: "], "")[0]
         if user_input == '1':
-            show_table(sellings.cv)
+            show_table("sellings.csv")
         elif user_input == '2':
-            add(sellings.csv)
+            add("sellings.csv")
         elif user_input == '3':
-            remove(sellings.csv)
+            remove("sellings.csv")
         elif user_input == '4':
-            update(sellings.csv)
+            update("sellings.csv")
         elif user_input == '0':
             break
         else:
@@ -49,19 +49,21 @@ def start():
 
 # print the default table of records from the file
 def show_table(table):
-
-    pass
+    table = data_manager.get_table_from_file("sellings.csv")
+    title_list = ["id", "title", "price", "month", "day", "year"]
+    ui.print_table(table, title_list)
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
-def add(table):
 
+def add(table):
     # your code
 
     return table
 
 
 # Remove the record having the id @id_ from the @list, than return @table
+
 def remove(table, id_):
 
     # your code
