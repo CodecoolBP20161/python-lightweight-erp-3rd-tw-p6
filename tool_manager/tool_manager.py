@@ -35,9 +35,10 @@ def start():
         elif user == "2":
             add(table)
         elif user == "3":
-            update(table, id_)
+            id_ = ui.get_inputs(list_titles=["Id:"], title="")
+            remove(table, id_)
         elif user == "4":
-            get_available_tools(table)
+            update(table, id_)
 
 
 # print the default table of records from the file
@@ -58,8 +59,10 @@ def add(table):
 
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
-    # user = ui.get_inputs(list_titles=["name: ", "manufacturer: ", "purchase-date: ", "durability: "], title="")
-
+    for row in table:
+        if row[0] == id_[0]:
+            table.remove(row)
+    data_manager.write_table_to_file("tool_manager/tools.csv", table)
     return table
 
 
