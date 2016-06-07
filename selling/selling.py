@@ -17,6 +17,8 @@ current_file_path = os.path.dirname(os.path.abspath(__file__))
 ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 # data manager module
 data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
+# common module
+common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
 # start this manager by a menu
@@ -33,14 +35,16 @@ def start():
 
     while True:
         user_input = ui.get_inputs(["Press a number between 0 - 4: "], "")[0]
+
         if user_input == '1':
-            show_table("sellings.csv")
+            show_table("selling/sellings.csv")
         elif user_input == '2':
-            add("sellings.csv")
+            add("selling/sellings.csv")
         elif user_input == '3':
-            remove("sellings.csv")
+            id_to_remove = ui.get_inputs(["id: "], "")
+            remove("selling/sellings.csv", id_to_remove)
         elif user_input == '4':
-            update("sellings.csv")
+            update("selling/selling/sellings.csv")
         elif user_input == '0':
             break
         else:
@@ -49,7 +53,7 @@ def start():
 
 # print the default table of records from the file
 def show_table(table):
-    table = data_manager.get_table_from_file("sellings.csv")
+    table = data_manager.get_table_from_file("selling/sellings.csv")
     title_list = ["id", "title", "price", "month", "day", "year"]
     ui.print_table(table, title_list)
 
@@ -57,17 +61,30 @@ def show_table(table):
 # Ask a new record as an input from the user than add it to @table, than return @table
 
 def add(table):
-    # your code
-
+    new_id = common.generate_random("selling/sellings.csv")
+    title = ""
+    list_titles = ["title: ", "price: ", "month: ", "day: ", "year: "]
+    record = ui.get_inputs(list_titles, title)
+    record.insert(0, new_id)
+    table = data_manager.get_table_from_file("selling/sellings.csv")
+    table = table + [record]
+    table = data_manager.write_table_to_file("selling/sellings.csv", table)
     return table
 
 
 # Remove the record having the id @id_ from the @list, than return @table
 
+
 def remove(table, id_):
-
-    # your code
-
+    table = data_manager.get_table_from_file("selling/sellings.csv")
+    existing_id = [i[0] for i in table]
+    id_to_remove = "".join(id_)
+    if id_to_remove in existing_id:
+        idx = existing_id.index(id_to_remove)
+        table.remove(table[idx])
+        table = data_manager.write_table_to_file("selling/sellings.csv", table)
+    else:
+        print_error_message("{} is not an existing ID!".format(id_))
     return table
 
 
