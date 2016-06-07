@@ -15,15 +15,53 @@ ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 # data manager module
 data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
 
-
-def print_test():
-    print('test')
+table = data_manager.get_table_from_file("crm/customers.csv")
+id_ = 0
 
 
 # start this manager by a menu
 def start():
-    print_test()
-    print('I am in CRM module')
+
+    while True:
+        handle_menu()
+        try:
+            choose()
+        except KeyError as err:
+            ui.print_error_message(err)
+        except ValueError:
+            break
+
+
+def handle_menu():
+    options = ['Show',
+               'Add',
+               'Remove',
+               'Update',
+               'ID of Longest Name',
+               'Subscribed e-mails']
+
+    ui.print_menu('\n~~CUSTOMERS~~', options, "Back to Main Menu")
+
+
+def choose():
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    if option == '1':
+        show_table(table)
+    elif option == '2':
+        add(table)
+    elif option == '3':
+        remove(table, id_)
+    elif option == '4':
+        update(table, id_)
+    elif option == '5':
+        get_longest_name_id(table)
+    elif option == '6':
+        get_subscribed_emails(table)
+    elif option == '0':
+        raise ValueError
+    else:
+        raise KeyError("There is no such option.")
 
 
 # print the default table of records from the file
