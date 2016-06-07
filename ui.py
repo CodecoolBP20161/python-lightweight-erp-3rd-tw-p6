@@ -21,6 +21,7 @@ def print_table(table, title_list):
     for i in range(len(table)):
         table.insert(2*i + 1, "-"*(length + 8*(len(title_list)-1)))
     table.insert(0, "-"*(length + 8*(len(title_list)-1)))
+    
     print ('\n'.join(table))
 
 # An example output:
