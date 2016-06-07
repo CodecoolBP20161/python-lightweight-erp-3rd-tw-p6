@@ -21,6 +21,7 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 
 table = data_manager.get_table_from_file("tool_manager/tools.csv")
 
+
 # start this manager by a menu
 def start():
 
@@ -38,7 +39,6 @@ def start():
             remove(table, id_)
         elif user == "4":
             update(table, id_)
-
 
 
 # print the default table of records from the file
