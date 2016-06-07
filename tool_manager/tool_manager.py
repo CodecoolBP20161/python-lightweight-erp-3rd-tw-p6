@@ -50,12 +50,12 @@ def show_table(table):
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 def add(table):
-    '''user = ui.get_inputs(list_titles=["name: ", "manufacturer: ", "purchase-date: ", "durability: "], title="")
+    user = ui.get_inputs(list_titles=["name: ", "manufacturer: ", "purchase-date: ", "durability: "], title="")
     id_number = common.generate_random(table)
-    user = user.insert(0, id_number)
-    new_table = table.append(user)
-    print (new_table)
-    data_manager.write_table_to_file("tools.csv", new_table)'''
+    user.insert(0, id_number)
+    table.append(user)
+    print (table)
+    data_manager.write_table_to_file("tools.csv", table)
 
 
 # Remove the record having the id @id_ from the @list, than return @table
