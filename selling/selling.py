@@ -21,10 +21,25 @@ data_manager = SourceFileLoader("module.name", current_file_path + "/../data_man
 
 # start this manager by a menu
 def start():
+    while True:
+        user_input = input('''
+What would you like to do?
+[1] Show table
+[2] Add new record
+[3] Remove record
+[4] Update a record
+[5] Return to the main menu ''')
 
-    # you code
-
-    pass
+    if user_input == '1':
+        show_table(sellings.cv)
+    elif user_input == '2':
+        add(sellings.csv)
+    elif user_input == '3':
+        remove(sellings.csv)
+    elif user_input == '4':
+        update(sellings.csv)
+    elif user_input == '5':
+        break
 
 
 # print the default table of records from the file
@@ -59,13 +74,15 @@ def update(table, id_):
 
     return table
 
-
+start()
 # special functions:
 # ------------------
 
 # the question: What is the id of the item that sold for the lowest price ?
 # return type: string (id)
 # if there are more than one with the lowest price, return the first of descending alphabetical order
+
+
 def get_lowest_price_item_id(table):
 
     # your code
