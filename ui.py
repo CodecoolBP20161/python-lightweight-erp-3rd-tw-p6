@@ -9,11 +9,20 @@
 # |   1    |       fo       |    fps  |
 # \-----------------------------------/
 def print_table(table, title_list):
+    """ Pretty prints a table. """
+    table.insert(0, title_list)
 
-    # your code
+    s = [[str("| " + e) for e in row] for row in table]
+    lens = [max(map(len, col)) for col in zip(*s)]
+    fmt = '\t'.join('{{:<{}}}'.format(x) for x in lens)
+    table = [fmt.format(*row) for row in s]
 
-    pass
-
+    length = sum(lens)
+    for i in range(len(table)):
+        table.insert(2*i + 1, "-"*(length + 8*(len(title_list)-1)))
+    table.insert(0, "-"*(length + 8*(len(title_list)-1)))
+    
+    print ('\n'.join(table))
 
 # An example output:
 # Main menu:
