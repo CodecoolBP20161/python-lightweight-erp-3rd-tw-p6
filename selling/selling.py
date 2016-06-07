@@ -21,15 +21,18 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 
 # start this manager by a menu
 def start():
-    while True:
-        user_input = input('''
-What would you like to do?
-[1] Show table
-[2] Add new record
-[3] Remove record
-[4] Update a record
-[5] Return to the main menu ''')
+    title = "\n\nSellings\nWhat would you like to do"
+    list_options = [
+        "Show table",
+        "Add new record",
+        "Remove record",
+        "Update a record",
+    ]
+    exit_message = "Return to the main menu"
+    ui.print_menu(title, list_options, exit_message)
 
+    while True:
+        user_input = ui.get_inputs(["Press a number between 0 - 4: "], "")[0]
         if user_input == '1':
             show_table(sellings.cv)
         elif user_input == '2':
@@ -38,14 +41,14 @@ What would you like to do?
             remove(sellings.csv)
         elif user_input == '4':
             update(sellings.csv)
-        elif user_input == '5':
+        elif user_input == '0':
             break
+        else:
+            continue
 
 
 # print the default table of records from the file
 def show_table(table):
-
-    # your code
 
     pass
 
