@@ -14,9 +14,9 @@ import os
 from importlib.machinery import SourceFileLoader
 current_file_path = os.path.dirname(os.path.abspath(__file__))
 # User interface module
-ui = SourceFileLoader("module.name", current_file_path + "/../ui.py").load_module()
+ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 # data manager module
-data_manager = SourceFileLoader("module.name", current_file_path + "/../data_manager.py").load_module()
+data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
 
 
 # start this manager by a menu
@@ -30,16 +30,16 @@ What would you like to do?
 [4] Update a record
 [5] Return to the main menu ''')
 
-    if user_input == '1':
-        show_table(sellings.cv)
-    elif user_input == '2':
-        add(sellings.csv)
-    elif user_input == '3':
-        remove(sellings.csv)
-    elif user_input == '4':
-        update(sellings.csv)
-    elif user_input == '5':
-        break
+        if user_input == '1':
+            show_table(sellings.cv)
+        elif user_input == '2':
+            add(sellings.csv)
+        elif user_input == '3':
+            remove(sellings.csv)
+        elif user_input == '4':
+            update(sellings.csv)
+        elif user_input == '5':
+            break
 
 
 # print the default table of records from the file
@@ -74,7 +74,7 @@ def update(table, id_):
 
     return table
 
-start()
+
 # special functions:
 # ------------------
 

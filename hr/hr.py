@@ -8,11 +8,11 @@
 import os
 from importlib.machinery import SourceFileLoader
 current_file_path = os.path.dirname(os.path.abspath(__file__))
-ui = SourceFileLoader("module.name", current_file_path + "/../ui.py").load_module()
-data_manager = SourceFileLoader("module.name", current_file_path + "/../data_manager.py").load_module()
+ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
+data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
 
 
-def start_module():
+def start():
     table = data_manager.get_table_from_file("hr/persons.csv")
     title = "HR Abteilung"
     list_options = ["Show table", "Add", "Remove", "Update", "Get oldest person", "Get people closest to average age"]
