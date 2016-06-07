@@ -36,7 +36,7 @@ def start():
         elif user == "4":
             get_available_tools(table)
 
-start()
+
 # print the default table of records from the file
 def show_table(table):
     table = data_manager.get_table_from_file("tools_test.csv")
