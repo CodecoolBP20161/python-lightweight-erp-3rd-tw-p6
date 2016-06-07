@@ -1,4 +1,3 @@
-
 import copy
 
 
@@ -14,7 +13,7 @@ import copy
 
 def print_table(table, title_list):
     """ Pretty prints a table. """
-    table = deepcopy(table)
+    table = copy.deepcopy(table)
     table.insert(0, title_list)
 
     s = [[str("| " + e) for e in row] for row in table]
