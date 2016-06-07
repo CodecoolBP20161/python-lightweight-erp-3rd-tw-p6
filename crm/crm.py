@@ -93,7 +93,11 @@ def add(table):
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
 
-    # your code
+    id_ = ui.get_inputs(['Please enter Customer\'s ID: '], "")
+
+    for record in table:
+        if record[0] == id_[0]:
+            table.remove(record)
 
     return table
 
