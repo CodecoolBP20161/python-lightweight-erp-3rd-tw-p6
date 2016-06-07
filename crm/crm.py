@@ -70,9 +70,7 @@ def choose(table, id_):
 # print the default table of records from the file
 def show_table(table):
 
-    print(table)
-
-    pass
+    ui.print_table(table, ['ID', 'NAME', 'E-MAIL', 'SUBSCRIBED'])
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table

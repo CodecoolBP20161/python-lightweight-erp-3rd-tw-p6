@@ -21,6 +21,7 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 
 table = data_manager.get_table_from_file("tool_manager/tools.csv")
 
+
 # start this manager by a menu
 def start():
 
@@ -39,10 +40,6 @@ def start():
             get_available_tools(table)
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> e9b311b793a2fed5a00dc2c435c39d90b97dfe08
 # print the default table of records from the file
 def show_table(table):
     table = data_manager.get_table_from_file("tool_manager/tools.csv")
@@ -61,8 +58,7 @@ def add(table):
 
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
-    #user = ui.get_inputs(list_titles=["name: ", "manufacturer: ", "purchase-date: ", "durability: "], title="")
-
+    # user = ui.get_inputs(list_titles=["name: ", "manufacturer: ", "purchase-date: ", "durability: "], title="")
 
     return table
 
