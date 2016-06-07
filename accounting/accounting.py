@@ -16,15 +16,18 @@ current_file_path = os.path.dirname(os.path.abspath(__file__))
 ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 # data manager module
 data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
+# common module
+common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
 # start this manager by a menu
 def start():
     """ Creates a submenu for accounting.py """
-    ui.print_menu(title='Accounting manager', list_options=['Show table', 'Add new item', 'Remove item', 'Update item'],
-                  exit_message="Back to MainMenu")
     while True:
-        user_input = input()
+        ui.print_menu(title='Accounting manager',
+                      list_options=['Show table', 'Add new item', 'Remove item', 'Update item'],
+                      exit_message="Back to MainMenu")
+        user_input = ui.get_inputs(list_titles=["Please, choose a number: "], title="")[0]
         if user_input == "0":
             break
         elif user_input == "1":
@@ -36,7 +39,7 @@ def start():
         elif user_input == "4":
             update("items.csv", id_)
         else:
-            ui.print_error_message("Not an option!")
+            ui.print_error_message("Invalid input!")
 
 
 # print the default table of records from the file
@@ -46,15 +49,20 @@ def show_table(table):
     title_list = ["id", "month", "day", "year", "type", "amount"]
     for rows in table:
         print(rows)
-    # ui.print_table(table, title_list)
+    # return ui.print_table(table, title_list)
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 def add(table):
-
-    # your code
-
-    return table
+        """ Adds a new row to the database """
+        id_q_input = common.generate_random("items.csv")
+        list_titles = ["Month: ", "Day: ", "Year: ", "Type: ", "Amount: "]
+        record = ui.get_inputs(list_titles, title="")
+        record.insert(0, id_q_input)
+        table = data_manager.get_table_from_file("items.csv")
+        table = table + [record]
+        table = data_manager.write_table_to_file("items.csv", table)
+        # return ui.print_table(table, title_list)
 
 
 # Remove the record having the id @id_ from the @list, than return @table
