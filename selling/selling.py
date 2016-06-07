@@ -23,7 +23,7 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 
 # start this manager by a menu
 def start():
-    title = "\n\nSellings\nWhat would you like to do"
+    title = "\n\nSellings"
     list_options = [
         "Show table",
         "Add new record",
@@ -34,7 +34,7 @@ def start():
     ui.print_menu(title, list_options, exit_message)
 
     while True:
-        user_input = ui.get_inputs(["Press a number between 0 - 4: "], "")[0]
+        user_input = ui.get_inputs(["Choose a number from the menu: "], "")[0]
 
         if user_input == '1':
             show_table("selling/sellings.csv")
@@ -48,6 +48,7 @@ def start():
         elif user_input == '0':
             break
         else:
+            ui.print_error_message("{} is not in the menu!".format(user_input))
             continue
 
 
@@ -84,7 +85,7 @@ def remove(table, id_):
         table.remove(table[idx])
         table = data_manager.write_table_to_file("selling/sellings.csv", table)
     else:
-        print_error_message("{} is not an existing ID!".format(id_))
+        ui.print_error_message("{} is not an existing ID!".format(id_))
     return table
 
 
