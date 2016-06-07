@@ -21,13 +21,10 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 # start this manager by a menu
 def start():
     """ Creates a submenu for accounting.py """
+    ui.print_menu(title='Accounting manager', list_options=['Show table', 'Add new item', 'Remove item', 'Update item'],
+                  exit_message="Back to MainMenu")
     while True:
-        user_input = input("""(0) Go back to main menu
-(1) Show table
-(2) Add new item
-(3) Remove item
-(4) Update item
-""")
+        user_input = input()
         if user_input == "0":
             break
         elif user_input == "1":
@@ -44,10 +41,12 @@ def start():
 
 # print the default table of records from the file
 def show_table(table):
-
-    # your code
-
-    pass
+    """ Shows the items.csv database """
+    table = data_manager.get_table_from_file("items.csv")
+    title_list = ["id", "month", "day", "year", "type", "amount"]
+    for rows in table:
+        print(rows)
+    # ui.print_table(table, title_list)
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
