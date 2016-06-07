@@ -18,13 +18,13 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 # common module
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
-
+options = ["show-table", "add", "remove", "update"]
 # start this manager by a menu
 def start():
 
     while True:
-
-        user = input("Please choose a number:\nshow-table - 1\nadd - 2\nremove - 3\nupdate - 4\nquit - 0\n")
+        ui.print_menu(title="Options", list_options=["show-table", "add", "remove", "update"], exit_message="Quit")
+        user = ui.get_inputs(list_titles=["Please choose a number: "], title="")[0]
         if user == "0":
             break
         elif user == "1":
@@ -36,7 +36,7 @@ def start():
         elif user == "4":
             get_available_tools(table)
 
-
+start()
 # print the default table of records from the file
 def show_table(table):
     table = data_manager.get_table_from_file("tools_test.csv")
