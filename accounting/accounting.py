@@ -25,13 +25,14 @@ def start():
     """ Creates a submenu for accounting.py """
     while True:
         ui.print_menu(title='Accounting manager',
-                      list_options=['Show table', 'Add new item', 'Remove item', 'Update item'],
+                      list_options=['Show table', 'Add new item', 'Remove item',
+                                    'Update item', 'Highest profit (2015/16) ***', 'Average profit per year ***'],
                       exit_message="Back to MainMenu")
         user_input = ui.get_inputs(list_titles=["Please, choose a number: "], title="")[0]
         if user_input == "0":
             break
         elif user_input == "1":
-            show_table("accounting/accounting/items.csv")
+            show_table("accounting/items.csv")
         elif user_input == "2":
             add("accounting/items.csv")
         elif user_input == "3":
@@ -42,6 +43,12 @@ def start():
             list_titles = ["Id_: "]
             record = ui.get_inputs(list_titles, title="")
             update("accounting/items.csv", record)
+        elif user_input == "5":
+            which_year_max("accounting/items.csv")
+        elif user_input == "6":
+            list_titles = ["Year: "]
+            record = ui.get_inputs(list_titles, title="")
+            avg_amount("accounting/items.csv", year)
         else:
             ui.print_error_message("Invalid input!")
 
@@ -74,9 +81,12 @@ def remove(table, id_):
     existing_id = [i[0] for i in table]
     id_ = ''.join(id_)
     if id_ in existing_id:
-        id_index = existing_id.index(id_)
-        table.remove(table[id_index])
-        table = data_manager.write_table_to_file("accounting/items.csv", table)
+        for i in table:
+            if i[0] == id_:
+                table.remove(i)
+                table = data_manager.write_table_to_file("accounting/items.csv", table)
+        else:
+            pass
     else:
         ui.print_error_message("Invalid input!")
     return table
@@ -90,15 +100,16 @@ def update(table, id_):
     existing_id = [i[0] for i in table]
     id_ = ''.join(id_)
     if id_ in existing_id:
-        id_index = existing_id.index(id_)
-        list_titles = ["Month: ", "Day: ", "Year: ", "Type: ", "Amount: "]
-        updated_inputs = ui.get_inputs(list_titles, title="")
-        table[id_index][1] = updated_inputs[0]
-        table[id_index][2] = updated_inputs[1]
-        table[id_index][3] = updated_inputs[2]
-        table[id_index][4] = updated_inputs[3]
-        table[id_index][5] = updated_inputs[4]
-        table = data_manager.write_table_to_file("accounting/items.csv", table)
+        for i in table:
+            if i[0] == id_:
+                list_titles = ["Month: ", "Day: ", "Year: ", "Type: ", "Amount: "]
+                updated_inputs = ui.get_inputs(list_titles, title="")
+                i[1] = updated_inputs[0]
+                i[2] = updated_inputs[1]
+                i[3] = updated_inputs[2]
+                i[4] = updated_inputs[3]
+                i[5] = updated_inputs[4]
+                table = data_manager.write_table_to_file("accounting/items.csv", table)
     else:
         ui.print_error_message("Invalid input!")
     return table
@@ -110,16 +121,31 @@ def update(table, id_):
 # the question: Which year has the highest profit? (profit=in-out) (2015 or 2016)
 # return the answer (number)
 def which_year_max(table):
-
-    # your code
-
-    pass
+    """ Highest profit of 2 years: 2015 or 2016 """
+    in_2016 = []
+    out_2016 = []
+    in_2015 = []
+    out_2015 = []
+    table = data_manager.get_table_from_file("accounting/items.csv")
+    for i in table:
+        if i[3] == '2016' and i[4] == "in":
+            in_2016.append(float(i[5]))
+        elif i[3] == '2016' and i[4] == "out":
+            out_2016.append(float(i[5]))
+        elif i[3] == '2015' and i[4] == "in":
+            in_2015.append(float(i[5]))
+        elif i[3] == '2015' and i[4] == "out":
+            out_2015.append(float(i[5]))
+    profit_2016 = common.summary(in_2016) - common.summary(out_2016)
+    profit_2015 = common.summary(in_2015) - common.summary(out_2015)
+    if profit_2015 > profit_2016:
+        print("The highest profit was reached in 2015.")
+        return 2015
+    else:
+        print("The highest profit was reached in 2016.")
+        return 2016
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
 # return the answer (number)
 def avg_amount(table, year):
-
-    # your code
-
-    pass
