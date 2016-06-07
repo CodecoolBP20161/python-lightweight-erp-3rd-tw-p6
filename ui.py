@@ -43,6 +43,7 @@ def print_table(table, title_list):
                 row_list2 = list(table[k])
                 row_list2[i] = "|"
                 table[k] = "".join(row_list2)
+
     print ('\n'.join(table))
 
 # An example output:
