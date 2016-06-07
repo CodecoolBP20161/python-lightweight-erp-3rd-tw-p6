@@ -38,6 +38,7 @@ def start():
             id_ = ui.get_inputs(list_titles=["Id:"], title="")
             remove(table, id_)
         elif user == "4":
+            id_ = ui.get_inputs(list_titles=["Id:"], title="")
             update(table, id_)
 
 
@@ -69,9 +70,11 @@ def remove(table, id_):
 # Update the record in @table having the id @id_ by asking the new data from the user,
 # than return @table
 def update(table, id_):
-
-    # your code
-
+    for row in table:
+        if row[0] == id_[0]:
+            user = ui.get_inputs(list_titles=["Name: ", "Manufacturer: ", "Purchase-date: ", "Durability: "], title="")
+            table.append(user)
+            data_manager.write_table_to_file("tool_manager/tools.csv", table)
     return table
 
 
