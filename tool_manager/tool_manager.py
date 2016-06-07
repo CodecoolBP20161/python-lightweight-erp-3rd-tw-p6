@@ -37,14 +37,9 @@ def start():
             get_available_tools(table)
 
 
-
-
-
-    # you code
-
-    pass
-
 start()
+
+
 # print the default table of records from the file
 def show_table(table):
     table = data_manager.get_table_from_file("tools_test.csv")
