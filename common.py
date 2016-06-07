@@ -1,6 +1,11 @@
 import random
 # implement commonly used functions here
 
+def summary(my_list):
+    solution = 0
+    for i in my_list:
+        solution += int(i)
+    return solution
 
 # generate and return a unique and random
 # (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter) string
