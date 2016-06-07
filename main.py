@@ -22,22 +22,23 @@ crm = SourceFileLoader("module.name", main_path + "/crm/crm.py").load_module()
 def choose():
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
-    if option == 1:
-        store.start()
-    elif option == 2:
-        hr.start()
-    elif option == 3:
-        tool_manager.start()
-    elif option == 4:
-        accounting.start()
-    elif option == 5:
-        selling.start()
-    elif option == 6:
-        crm.start()
-    elif option == 0:
+    if option == '1':
+        store.start_module()
+    elif option == '2':
+        hr.start_module()
+    elif option == '3':
+        tool_manager.start_module()
+    elif option == '4':
+        accounting.start_module()
+    elif option == '5':
+        selling.start_module()
+    elif option == '6':
+        crm.start_module()
+    elif option == '0':
         sys.exit(0)
     else:
         raise KeyError("There is no such option.")
+
 
 
 def handle_menu():
