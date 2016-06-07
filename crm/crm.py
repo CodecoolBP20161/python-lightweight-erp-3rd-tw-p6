@@ -82,7 +82,7 @@ def add(table):
                    'Customer\'s e-mail address: ',
                    'Is the Customer subscribed to the newsletter?\nWrite 0 for NO or 1 for YES: ']
 
-    new_record = ui.get_inputs(field_names, "\n Anwser these questions to add a new customer:")
+    new_record = ui.get_inputs(field_names, "\nADD NEW CUSTOMER")
 
     for field in new_record:
         table[-1].append(field)
@@ -93,7 +93,11 @@ def add(table):
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
 
-    # your code
+    id_ = ui.get_inputs(['Please enter Customer\'s ID: '], "")
+
+    for record in table:
+        if record[0] == id_[0]:
+            table.remove(record)
 
     return table
 
@@ -102,7 +106,18 @@ def remove(table, id_):
 # than return @table
 def update(table, id_):
 
-    # your code
+    id_ = ui.get_inputs(['Please enter Customer\'s ID: '], "")
+
+    field_names = ['Change Customer\'s full name to: ',
+                   'Change Customer\'s e-mail address to: ',
+                   'Change Customer\'s subscription status to:\n(Write 0 for NO or 1 for YES) ']
+
+    new_record = ui.get_inputs(field_names, "\nUPDATE CUSTOMER")
+    new_record.insert(0, id_[0])
+
+    for n, record in enumerate(table):
+        if record[0] == id_[0]:
+            table[n] = new_record
 
     return table
 

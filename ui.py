@@ -1,4 +1,4 @@
-
+from copy import deepcopy
 
 # An example output:
 # /-----------------------------------\
@@ -8,8 +8,11 @@
 # |--------|----------------|---------|
 # |   1    |       fo       |    fps  |
 # \-----------------------------------/
+
+
 def print_table(table, title_list):
     """ Pretty prints a table. """
+    table = deepcopy(table)
     table.insert(0, title_list)
 
     # s = [[str("| " + e) for e in row] for row in table]
@@ -23,7 +26,7 @@ def print_table(table, title_list):
         table.insert(2*i + 1, "-"*(length + 8*(len(title_list)-1)))
     table.insert(0, "-"*(length + 8*(len(title_list)-1)))
 
-    print ('\n'.join(table))
+    print('\n'.join(table))
 
 # An example output:
 # Main menu:
@@ -36,6 +39,7 @@ def print_table(table, title_list):
 # (0) Exit program
 #
 # see the function call in main.py
+
 
 def print_menu(title='Title', list_options=['a', 'b', 'c'], exit_message="Back"):
     print("%s:" % (title))
