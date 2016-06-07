@@ -48,7 +48,4 @@ def get_inputs(list_titles, title):
 
 # see the function call in main.py
 def print_error_message(message):
-
-    # your code
-
-    pass
+    print(message)

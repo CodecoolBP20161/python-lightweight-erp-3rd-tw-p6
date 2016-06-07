@@ -16,12 +16,14 @@ ui = SourceFileLoader("module.name", current_file_path + "/../ui.py").load_modul
 data_manager = SourceFileLoader("module.name", current_file_path + "/../data_manager.py").load_module()
 
 
+def print_test():
+    print('test')
+
+
 # start this manager by a menu
-def start():
-
-    # you code
-
-    pass
+def start_module():
+    print_test()
+    print('I am in CRM module')
 
 
 # print the default table of records from the file
