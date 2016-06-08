@@ -29,7 +29,8 @@ def start():
         "Add new record",
         "Remove record",
         "Update a record",
-        "Cheapest item"
+        "Cheapest item",
+        "Looking up items sold between given dates"
     ]
     exit_message = "Return to the main menu"
     ui.print_menu(title, list_options, exit_message)
@@ -123,8 +124,6 @@ def update(table, id_):
 # the question: What is the id of the item that sold for the lowest price ?
 # return type: string (id)
 # if there are more than one with the lowest price, return the first of descending alphabetical order
-
-
 def get_lowest_price_item_id(table):
     table = data_manager.get_table_from_file("selling/sellings.csv")
 
@@ -143,14 +142,12 @@ def get_lowest_price_item_id(table):
 
     return desc_ids
 
+
 # the question: Which items are sold between two given dates ? (from_date < birth_date < to_date)
 # return type: list of lists (the filtered table)
-
-
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
     table = data_manager.get_table_from_file("selling/sellings.csv")
     filtered_items = []
-
     from_date = int(year_from) * 365 + int(month_from) * 31 + int(day_from)
     to_date = int(year_to) * 365 + int(month_to) * 31 + int(day_to)
 
