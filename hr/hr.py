@@ -10,7 +10,7 @@ from importlib.machinery import SourceFileLoader
 current_file_path = os.path.dirname(os.path.abspath(__file__))
 ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
-
+common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 def start():
     table = data_manager.get_table_from_file("hr/persons_test.csv")
@@ -50,16 +50,12 @@ def start():
 def show_table(table):
     """ Prints the default table of records from the file. """
     ui.print_table(table, ["id", "name", "birth date"])
-    # print(table)
-    # for row in table:
-    #     printable = "{0} {1} {2}".format(row[0], row[1], row[2])
-    #     print(printable)
 
 
 def add(table):
     """ Adds a new record to the table based on user input. """
     table.append([])
-    table[-1].append("random_generated_id_from_balazs")
+    table[-1].append(common.generate_random("hr/persons_test.csv"))
     user_input = input("Give in the name: ")
     table[-1].append(user_input)
     user_input = input("Give in the year: ")
@@ -74,11 +70,11 @@ def remove(table, id_):
     for row in table:
         if row[0] == id_:
             del table[id_counter]
-            print("Id {0} deleted from the table (name: {1} , year: {2})".format(row[0], row[1], row[2]))
+            # pint("Id {0} deleted from the table (name: {1} , year: {2})".format(row[0], row[1], row[2]))
             found = 1
         id_counter += 1
-    if found == 0:
-        print("The ID {0} does not exist.".format(id_))
+    # if found == 0:
+        # pint("The ID {0} does not exist.".format(id_))
     return table
 
 
