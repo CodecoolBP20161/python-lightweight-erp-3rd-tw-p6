@@ -86,9 +86,7 @@ def add(table):
 
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
-    for element in table:
-        if element[0] == id_[0]:
-            table.remove(element)
+    [table.remove(element) for element in table if element[0] == id_[0]]
     data_manager.write_table_to_file("store/games.csv", table)
     return table
 
@@ -117,7 +115,7 @@ def update(table, id_):
     elif option == '3':
         list_titles = ["Enter a new price: "]
         price_input = ui.get_inputs(list_titles, "")
-        selected_element[3] = man_input[0]
+        selected_element[3] = price_input[0]
     elif option == '4':
         list_titles = ["Enter a new stock quantity: "]
         q_input = ui.get_inputs(list_titles, "")
@@ -153,8 +151,6 @@ def get_counts_by_manufacturers(table):
 # return type: number
 def get_average_by_manufacturer(table, manufacturer):
     manufacturer_all_games_list = []
-    for i in table:
-        if i[2] == manufacturer[0]:
-                manufacturer_all_games_list.append(int(i[4]))
+    [manufacturer_all_games_list.append(int(i[4])) for i in table if i[2].lower() == manufacturer[0].lower()]
     manufacturer_avg_num = common.summary(manufacturer_all_games_list) / len(manufacturer_all_games_list)
     return manufacturer_avg_num
