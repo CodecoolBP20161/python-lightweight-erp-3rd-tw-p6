@@ -36,10 +36,10 @@ def start():
             table = update(table, updateable_id)
 
         elif user_input == "5":
-            ui.print_table(get_oldest_person(table))
+            ui.print_table(str(get_oldest_person(table)))
 
         elif user_input == "6":
-            ui.print_table(get_persons_closest_to_average(table))
+            ui.print_table(str(get_persons_closest_to_average(table)))
 
         elif user_input == "0":
             return
