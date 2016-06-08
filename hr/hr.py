@@ -10,16 +10,16 @@ from importlib.machinery import SourceFileLoader
 current_file_path = os.path.dirname(os.path.abspath(__file__))
 ui = SourceFileLoader("ui", current_file_path + "/../ui.py").load_module()
 data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_manager.py").load_module()
-
+common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 def start():
     table = data_manager.get_table_from_file("hr/persons_test.csv")
-    title = "HR Abteilung"
+    title = "HR Department"
     list_options = ["Show table", "Add", "Remove", "Update", "Get oldest person", "Get people closest to average age"]
     ui.print_menu(title, list_options, "Exit")
     while True:
-        user_input = input("\n Please specify a command. \n")
-
+        user_input = ui.get_inputs(["\n Please specify a command. \n"], "")
+        user_input = user_input[0]
         if user_input == "1":
             show_table(table)
 
@@ -27,43 +27,43 @@ def start():
             table = add(table)
 
         elif user_input == "3":
-            removeable_id = input("Id of the person to be removed:")
+            removeable_id = ui.get_inputs(["Give in the id: "],"Id of the person to be removed:")
             table = remove(table, removeable_id)
 
         elif user_input == "4":
-            updateable_id = input("Id of the person to be updated:")
+            updateable_id = ui.get_inputs(["Give in the id: "], "Id of the person to be updated:")
+            ui.print_table(updateable_id)
             table = update(table, updateable_id)
 
         elif user_input == "5":
-            print(get_oldest_person(table))
+            ui.print_table(get_oldest_person(table))
 
         elif user_input == "6":
-            print(get_persons_closest_to_average(table))
+            ui.print_table(get_persons_closest_to_average(table))
 
         elif user_input == "0":
             return
 
         else:
-            print("You did not enter a valid command. Try again.")
+            ui.print_table("You did not enter a valid command. Try again.")
 
 
 def show_table(table):
     """ Prints the default table of records from the file. """
     ui.print_table(table, ["id", "name", "birth date"])
-    # print(table)
-    # for row in table:
-    #     printable = "{0} {1} {2}".format(row[0], row[1], row[2])
-    #     print(printable)
 
 
 def add(table):
     """ Adds a new record to the table based on user input. """
     table.append([])
-    table[-1].append("random_generated_id_from_balazs")
-    user_input = input("Give in the name: ")
-    table[-1].append(user_input)
-    user_input = input("Give in the year: ")
-    table[-1].append(user_input)
+    table[-1].append(common.generate_random("hr/persons_test.csv"))
+    # get_inputs(list_titles, title):
+
+    user_input = ui.get_inputs(["Give in the name: ", "Give in the year: "], "Add a record to the table")
+
+    for element in user_input:
+        table[-1].append(element)
+
     return table
 
 
@@ -74,11 +74,11 @@ def remove(table, id_):
     for row in table:
         if row[0] == id_:
             del table[id_counter]
-            print("Id {0} deleted from the table (name: {1} , year: {2})".format(row[0], row[1], row[2]))
+            ui.print_table("Id {0} deleted from the table (name: {1} , year: {2})".format(row[0], row[1], row[2]))
             found = 1
         id_counter += 1
-    if found == 0:
-        print("The ID {0} does not exist.".format(id_))
+    # if found == 0:
+        ui.print_table("The ID {0} does not exist.".format(id_))
     return table
 
 
@@ -86,14 +86,16 @@ def update(table, id_):
     """ Updates a table record based on user input. """
     id_counter = 0
     for row in table:
-        if row[0] == id_:
-            name = input("Give in the updated name:")
-            year = input("Give in the updated year:")
-            table[id_counter][1] = name
-            table[id_counter][2] = year
-            print("Id {0} updated (name: {1} , year: {2})".format(row[0], row[1], row[2]))
+        if row[0] == id_[0]:
+            user_input = ui.get_inputs(["Give in the updated name:", "Give in the updated year:"], "Updating the table:")
+            ui.print_table(user_input[0])
+            table[id_counter][1] = user_input[0]
+            table[id_counter][2] = user_input[1]
+            ui.print_table("Id {0} updated (name: {1} , year: {2})".format(row[0], row[1], row[2]))
+            return table
         id_counter += 1
 
+    ui.print_table("The id {0} does not exist.".format(id_))
     return table
 
 

@@ -39,19 +39,19 @@ def start():
     elif option == '3':
         title = "Remove a record from the table by ID."
         list_titles = ["Enter ID: "]
-        id_ = ui.get_inputs(list_titles, title)
+        id_ = ui.get_inputs(list_titles, title)[0]
         remove(table, id_)
     elif option == '4':
         title = "Update data in record by ID"
         list_titles = ["Enter ID: "]
-        id_ = ui.get_inputs(list_titles, title)
+        id_ = ui.get_inputs(list_titles, title)[0]
         update(table, id_)
     elif option == '5':
         get_counts_by_manufacturers(table)
     elif option == '6':
         title = "Get average by a given manufacturer"
         list_titles = ["Enter manufacturer name: "]
-        manufacturer = ui.get_inputs(list_titles, title)
+        manufacturer = ui.get_inputs(list_titles, title)[0]
         get_average_by_manufacturer(table, manufacturer)
     elif option == '0':
         quit()
@@ -86,8 +86,12 @@ def add(table):
 
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
-    [table.remove(element) for element in table if element[0] == id_[0]]
-    data_manager.write_table_to_file("store/games.csv", table)
+    ids = [i[0] for i in table]
+    if id_ in ids:
+        [table.remove(element) for element in table if element[0] == id_]
+        data_manager.write_table_to_file("store/games.csv", table)
+    else:
+        ui.print_error_message("{} was not found!".format(id_))
     return table
 
 
@@ -95,37 +99,41 @@ def remove(table, id_):
 # than return @table
 def update(table, id_):
     for element in table:
-        if element[0] == id_[0]:
+        if element[0] == id_:
             selected_element = element
-    list_options = ["Game name",
-                    "manufacturer name",
-                    "Price",
-                    "Stock"]
-    ui.print_menu("Please choose an option", list_options, "Back to store menu")
-    inputs = ui.get_inputs(["Please enter a number: "], "")
-    option = inputs[0]
-    if option == '1':
-        list_titles = ["Enter a new name: "]
-        name_input = ui.get_inputs(list_titles, "")
-        selected_element[1] = name_input[0]
-    elif option == '2':
-        list_titles = ["Enter a new manufacturer name: "]
-        man_input = ui.get_inputs(list_titles, "")
-        selected_element[2] = man_input[0]
-    elif option == '3':
-        list_titles = ["Enter a new price: "]
-        price_input = ui.get_inputs(list_titles, "")
-        selected_element[3] = price_input[0]
-    elif option == '4':
-        list_titles = ["Enter a new stock quantity: "]
-        q_input = ui.get_inputs(list_titles, "")
-        selected_element[4] = q_input[0]
-    elif option == '0':
-        start()
+    ids = [i[0] for i in table]
+    if id_ in ids:
+        list_options = ["Game name",
+                        "manufacturer name",
+                        "Price",
+                        "Stock"]
+        ui.print_menu("Please choose an option", list_options, "Back to store menu")
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            list_titles = ["Enter a new name: "]
+            name_input = ui.get_inputs(list_titles, "")
+            selected_element[1] = name_input[0]
+        elif option == '2':
+            list_titles = ["Enter a new manufacturer name: "]
+            man_input = ui.get_inputs(list_titles, "")
+            selected_element[2] = man_input[0]
+        elif option == '3':
+            list_titles = ["Enter a new price: "]
+            price_input = ui.get_inputs(list_titles, "")
+            selected_element[3] = price_input[0]
+        elif option == '4':
+            list_titles = ["Enter a new stock quantity: "]
+            q_input = ui.get_inputs(list_titles, "")
+            selected_element[4] = q_input[0]
+        elif option == '0':
+            start()
+        else:
+            raise KeyError("There is no such option.")
     else:
-        raise KeyError("There is no such option.")
+        ui.print_error_message("{} was not found!".format(id_[0]))
     for element in table:
-        if element[0] == id_[0]:
+        if element[0] == id_:
             element = selected_element
     data_manager.write_table_to_file("store/games.csv", table)
     return table
@@ -150,7 +158,10 @@ def get_counts_by_manufacturers(table):
 # the question: What is the average amount of games in stock of a given manufacturer?
 # return type: number
 def get_average_by_manufacturer(table, manufacturer):
-    manufacturer_all_games_list = []
-    [manufacturer_all_games_list.append(int(i[4])) for i in table if i[2].lower() == manufacturer[0].lower()]
-    manufacturer_avg_num = common.summary(manufacturer_all_games_list) / len(manufacturer_all_games_list)
-    return manufacturer_avg_num
+    mfs = [i[2] for i in table]
+    if manufacturer in mfs:
+        manufacturer_all_games_list = [int(i[4]) for i in table if i[2].lower() == manufacturer.lower()]
+        manufacturer_avg_num = common.summary(manufacturer_all_games_list) / len(manufacturer_all_games_list)
+        return manufacturer_avg_num
+    else:
+        ui.print_error_message("{} was not found!".format(manufacturer))

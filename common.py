@@ -9,7 +9,7 @@ def summary(my_list):
     return solution
 
 
-def get_index(my_list, item):
+def id_number(my_list, item):
     index = -1
     for i in my_list:
         index += 1
@@ -35,3 +35,14 @@ def generate_random(table):
         return password
     else:
         return generate_random(table)
+
+def sorting_method(list1):
+    """ Sorts list1 """
+    new_list1 = []
+
+    for i in range(len(list1)):
+        order = list1.index(max(list1))
+        new_list1.append(list1[order])
+        list1.remove(list1[order])
+
+    return new_list1
