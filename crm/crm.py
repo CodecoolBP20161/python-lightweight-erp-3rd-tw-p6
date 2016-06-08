@@ -150,6 +150,8 @@ def get_longest_name_id(table):
             longest_name[0] = id_list[n][0]
             longest_name[1] = id_list[n][1]
 
+    ui.print_table(longest_name[0])
+
     return(longest_name[0])
 
 
@@ -162,5 +164,8 @@ def get_subscribed_emails(table):
     for n, record in enumerate(table):
         if record[3] == '1':
             subscribed_list.append(table[n][2] + ';' + table[n][1])
+
+    for elem in subscribed_list:
+        ui.print_table(elem)
 
     return(subscribed_list)
