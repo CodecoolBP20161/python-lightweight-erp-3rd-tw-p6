@@ -49,6 +49,12 @@ def start():
             update("selling/sellings.csv", id_to_update)
         elif user_input == '5':
             get_lowest_price_item_id("selling/sellings.csv")
+        elif user_input == '6':
+            title_list1 = ["month_from: ", "day_from: ", "year_from: ", "month_to: ", "day_to: ", "year_to: "]
+            title_list = ui.get_inputs(title_list1, "")
+            get_items_sold_between("selling/sellings.csv",
+                                   title_list[0],
+                                   title_list[1], title_list[2], title_list[3], title_list[4], title_list[5])
         elif user_input == '0':
             break
         else:
@@ -142,7 +148,15 @@ def get_lowest_price_item_id(table):
 
 
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
+    table = data_manager.get_table_from_file("selling/sellings.csv")
+    filtered_items = []
 
-    # your code
+    from_date = int(year_from) * 365 + int(month_from) * 31 + int(day_from)
+    to_date = int(year_to) * 365 + int(month_to) * 31 + int(day_to)
 
-    pass
+    for row in table:
+        days = int(row[5]) * 365 + int(row[3]) * 31 + int(row[4])
+        if days >= from_date and days <= to_date:
+            filtered_items.append(row)
+
+return filtered_items
