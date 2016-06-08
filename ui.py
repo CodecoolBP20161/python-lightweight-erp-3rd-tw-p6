@@ -11,20 +11,22 @@ import copy
 # \-----------------------------------/
 
 
-def print_table(table, title_list):
-    """ Pretty prints a table. """
+def print_table(table, title_list=""):
+    """ Pretty prints a table or prints a simple string. """
+
+    if isinstance(table, str):
+        print(table)
+        return
+
     table = copy.deepcopy(table)
     table.insert(0, title_list)
 
     table = [[str("| " + cell) for cell in row] for row in table]
-    lens = [max(map(len, col)) for col in zip(*table)]
-    fmt = ''.join('{{:<{}}}'.format(x) for x in lens)
-    table = [fmt.format(*row) for row in table]
+    lenghts = [max(map(len, col)) for col in zip(*table)]
+    width_format = ''.join('{{:<{}}}'.format(x) for x in lenghts)
+    table = [width_format.format(*row) for row in table]
 
-    for i in range(len(table)):
-        table[i*2] += " |"
-        table.insert(2*i + 1, "-"*(len(table[0])))
-
+    table[:] = [x for i in table for x in [i + ' |', '-'*(2+len(table[0]))]]
     table.insert(0, "-"*(len(table[0])))
 
     corner = list(table[0])
