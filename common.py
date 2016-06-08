@@ -17,6 +17,10 @@ def get_index(my_list, item):
             return index
 
 
+def printer(item):
+    print(item)
+
+
 # generate and return a unique and random
 # (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter) string
 # it must be unique in the list
