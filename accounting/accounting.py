@@ -44,11 +44,14 @@ def start():
             record = ui.get_inputs(list_titles, title="")
             update("accounting/items.csv", record)
         elif user_input == "5":
-            which_year_max("accounting/items.csv")
+            result = which_year_max("accounting/items.csv")
+            ui.print_table(str(result) + " has the highest profit so far.")
         elif user_input == "6":
             list_titles = ["Year: "]
             record = ''.join(ui.get_inputs(list_titles, title=""))
-            avg_amount("accounting/items.csv", record)
+            result = avg_amount("accounting/items.csv", record)
+            ui.print_table(str(result))
+
         else:
             ui.print_error_message("Invalid input!")
 
@@ -138,7 +141,6 @@ def which_year_max(table):
     max_profit = max(profits_per_year.values())
     for key, val in profits_per_year.items():
         if val == max_profit:
-            ui.print_table(key + " has the highest profit so far.")
             return int(key)
 
 
@@ -165,7 +167,6 @@ def avg_amount(table, year):
                     else:
                         profit_in_year[i[3]] -= float(i[5])
         average_profit_in_year = profit_in_year[str(year)] / len(list_of_spec_year)
-        ui.print_table(str(average_profit_in_year))
         return average_profit_in_year
     else:
         ui.print_error_message("Invalid input!")
