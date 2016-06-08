@@ -29,6 +29,7 @@ def start():
         "Add new record",
         "Remove record",
         "Update a record",
+        "Cheapest item"
     ]
     exit_message = "Return to the main menu"
     ui.print_menu(title, list_options, exit_message)
@@ -46,6 +47,8 @@ def start():
         elif user_input == '4':
             id_to_update = ui.get_inputs(["ID: "], "")
             update("selling/sellings.csv", id_to_update)
+        elif user_input == '5':
+            get_lowest_price_item_id("selling/sellings.csv")
         elif user_input == '0':
             break
         else:
@@ -73,16 +76,13 @@ def add(table):
     return table
 
 
-
-
-
 # Remove the record having the id @id_ from the @list, than return @table
 def remove(table, id_):
     table = data_manager.get_table_from_file("selling/sellings.csv")
     existing_id = [i[0] for i in table]
     id_to_remove = "".join(id_)
     if id_to_remove in existing_id:
-        idx = common.get_index(existing_id, id_to_remove)
+        idx = common.id_number(existing_id, id_to_remove)
         table.remove(table[idx])
         table = data_manager.write_table_to_file("selling/sellings.csv", table)
     else:
@@ -92,13 +92,12 @@ def remove(table, id_):
 
 # Update the record in @table having the id @id_ by asking the new data from the user,
 # than return @table
-
 def update(table, id_):
     table = data_manager.get_table_from_file("selling/sellings.csv")
     existing_id = [i[0] for i in table]
     id_ = "".join(id_)
     if id_ in existing_id:
-        idx = common.get_index(existing_id, id_)
+        idx = common.id_number(existing_id, id_)
         list_titles = ["Title: ", "Price: ", "Month: ", "Day: ", "Year: "]
         updated_record = ui.get_inputs(list_titles, title="")
         table[idx][1] = updated_record[0]
@@ -121,13 +120,26 @@ def update(table, id_):
 
 
 def get_lowest_price_item_id(table):
-    # your code
+    table = data_manager.get_table_from_file("selling/sellings.csv")
 
-    pass
+    list_of_prices = []
+    list_of_ids = []
+    for row in table:
+        list_of_prices.append(row[2])
+    lowest_price = min(list_of_prices)
 
+    for row in table:
+        if lowest_price == row[2]:
+            list_of_ids.append(row[0])
+
+    desc_ids = ", ".join(common.sorting_method(list_of_ids))
+    ui.print_table(desc_ids)
+
+    return desc_ids
 
 # the question: Which items are sold between two given dates ? (from_date < birth_date < to_date)
 # return type: list of lists (the filtered table)
+
 
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
 
