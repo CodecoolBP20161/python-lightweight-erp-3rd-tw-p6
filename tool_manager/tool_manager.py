@@ -26,7 +26,7 @@ table = data_manager.get_table_from_file("tool_manager/tools.csv")
 def start():
 
     while True:
-        ui.print_menu(title="Options", list_options=["Show-table", "Add", "Remove", "Update"], exit_message="Quit")
+        ui.print_menu(title="Options", list_options=["Show-table", "Add", "Remove", "Update", "get available tools", "get average durability by manufacturers"], exit_message="Quit")
         user = ui.get_inputs(list_titles=["Please choose a number: "], title="")[0]
         if user == "0":
             break
@@ -40,6 +40,11 @@ def start():
         elif user == "4":
             id_ = ui.get_inputs(list_titles=["Id:"], title="")
             update(table, id_)
+        elif user == "5":
+            get_available_tools(table)
+        elif user == "6":
+            get_average_durability_by_manufacturers(table)
+
 
 
 # print the default table of records from the file
@@ -84,16 +89,27 @@ def update(table, id_):
 # the question: Which items has not yet exceeded their durability ?
 # return type: list of lists (the inner list contains the whole row with their actual data types)
 def get_available_tools(table):
-
-    # your code
-
-    pass
+    a = []
+    for row in table:
+        if int(row[3]) + int(row[4]) >= 2016:
+            a.append([row[0], row[1], row[2], int(row[3]), int(row[4])])
+    return(a)
 
 
 # the question: What are the average durability time for each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [avg] }
 def get_average_durability_by_manufacturers(table):
+    sum_dic = {}
+    count_dic = {}
+    for row in table:
+        sum_dic[row[2]] = 0
+    for i in sum_dic.keys():
+        for row in table:
+            if i == row[2]:
+                sum_dic[i] = sum_dic.get(i, 0) + int(row[4])
+                count_dic[i] = count_dic.get(i, 0) + 1
 
-    # your code
+    for i in sum_dic.keys():
+        sum_dic[i] = sum_dic.get(i, 0) / count_dic.get(i, 0)
 
-    pass
+    return sum_dic

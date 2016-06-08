@@ -29,27 +29,39 @@ def start():
                                     'Highest profit in year ***', 'Average profit ***'],
                       exit_message="Back to MainMenu")
         user_input = ui.get_inputs(list_titles=["Please, choose a number: "], title="")[0]
-        if user_input == "0":
-            break
-        elif user_input == "1":
-            show_table("accounting/items.csv")
-        elif user_input == "2":
-            add("accounting/items.csv")
-        elif user_input == "3":
-            list_titles = ["Id_: "]
-            record = ui.get_inputs(list_titles, title="")
-            remove("accounting/items.csv", record)
-        elif user_input == "4":
-            list_titles = ["Id_: "]
-            record = ui.get_inputs(list_titles, title="")
-            update("accounting/items.csv", record)
-        elif user_input == "5":
-            which_year_max("accounting/items.csv")
-        elif user_input == "6":
-            list_titles = ["Year: "]
-            record = ''.join(ui.get_inputs(list_titles, title=""))
-            avg_amount("accounting/items.csv", record)
-        else:
+        try:
+            if user_input == "0":
+                break
+            elif user_input == "1":
+                show_table("accounting/items.csv")
+            elif user_input == "2":
+                add("accounting/items.csv")
+            elif user_input == "3":
+                list_titles = ["Id_: "]
+                try:
+                    record = ui.get_inputs(list_titles, title="")
+                    remove("accounting/items.csv", record)
+                except:
+                    ui.print_error_message("Invalid input!")
+            elif user_input == "4":
+                list_titles = ["Id_: "]
+                try:
+                    record = ui.get_inputs(list_titles, title="")
+                    update("accounting/items.csv", record)
+                except:
+                    ui.print_error_message("Invalid input!")
+            elif user_input == "5":
+                result = which_year_max("accounting/items.csv")
+                ui.print_table(str(result) + " has the highest profit so far.")
+            elif user_input == "6":
+                list_titles = ["Year: "]
+                try:
+                    record = ''.join(ui.get_inputs(list_titles, title=""))
+                    result = avg_amount("accounting/items.csv", record)
+                    ui.print_table(str(result))
+                except:
+                    ui.print_error_message("Invalid input!")
+        except ValueError:
             ui.print_error_message("Invalid input!")
 
 
@@ -78,17 +90,13 @@ def add(table):
 def remove(table, id_):
     """ Removes a certain row from the database identified by id_ """
     table = data_manager.get_table_from_file("accounting/items.csv")
-    existing_id = [i[0] for i in table]
     id_ = ''.join(id_)
-    if id_ in existing_id:
-        for i in table:
-            if i[0] == id_:
-                table.remove(i)
-                table = data_manager.write_table_to_file("accounting/items.csv", table)
+    for i in table:
+        if i[0] == id_:
+            table.remove(i)
+            table = data_manager.write_table_to_file("accounting/items.csv", table)
         else:
             pass
-    else:
-        ui.print_error_message("Invalid input!")
     return table
 
 
@@ -97,21 +105,17 @@ def remove(table, id_):
 def update(table, id_):
     """ Removes a certain row from the database identified by id_ """
     table = data_manager.get_table_from_file("accounting/items.csv")
-    existing_id = [i[0] for i in table]
     id_ = ''.join(id_)
-    if id_ in existing_id:
-        for i in table:
-            if i[0] == id_:
-                list_titles = ["Month: ", "Day: ", "Year: ", "Type: ", "Amount: "]
-                updated_inputs = ui.get_inputs(list_titles, title="")
-                i[1] = updated_inputs[0]
-                i[2] = updated_inputs[1]
-                i[3] = updated_inputs[2]
-                i[4] = updated_inputs[3]
-                i[5] = updated_inputs[4]
-                table = data_manager.write_table_to_file("accounting/items.csv", table)
-    else:
-        ui.print_error_message("Invalid input!")
+    for i in table:
+        if i[0] == id_:
+            list_titles = ["Month: ", "Day: ", "Year: ", "Type: ", "Amount: "]
+            updated_inputs = ui.get_inputs(list_titles, title="")
+            i[1] = updated_inputs[0]
+            i[2] = updated_inputs[1]
+            i[3] = updated_inputs[2]
+            i[4] = updated_inputs[3]
+            i[5] = updated_inputs[4]
+            table = data_manager.write_table_to_file("accounting/items.csv", table)
     return table
 
 
@@ -138,7 +142,6 @@ def which_year_max(table):
     max_profit = max(profits_per_year.values())
     for key, val in profits_per_year.items():
         if val == max_profit:
-            ui.print_table(key + " has the highest profit so far.")
             return int(key)
 
 
@@ -151,21 +154,17 @@ def avg_amount(table, year):
     profit_in_year = {}
     list_of_years = [i[3] for i in table]
     list_of_spec_year = [i[3] for i in table if i[3] == str(year)]
-    if year in list_of_years:
-        for i in table:
-            if i[3] == year:
-                if i[4] == 'in':
-                    if i[3] not in profit_in_year.keys():
-                        profit_in_year.update({i[3]: float(i[5])})
-                    else:
-                        profit_in_year[i[3]] += float(i[5])
-                elif i[4] == 'out':
-                    if i[3] not in profit_in_year.keys():
-                        profit_in_year.update({i[3]: (float(i[5]) * -1)})
-                    else:
-                        profit_in_year[i[3]] -= float(i[5])
-        average_profit_in_year = profit_in_year[str(year)] / len(list_of_spec_year)
-        ui.print_table(str(average_profit_in_year))
-        return average_profit_in_year
-    else:
-        ui.print_error_message("Invalid input!")
+    for i in table:
+        if i[3] == year:
+            if i[4] == 'in':
+                if i[3] not in profit_in_year.keys():
+                    profit_in_year.update({i[3]: float(i[5])})
+                else:
+                    profit_in_year[i[3]] += float(i[5])
+            elif i[4] == 'out':
+                if i[3] not in profit_in_year.keys():
+                    profit_in_year.update({i[3]: (float(i[5]) * -1)})
+                else:
+                    profit_in_year[i[3]] -= float(i[5])
+    average_profit_in_year = profit_in_year[str(year)] / len(list_of_spec_year)
+    return average_profit_in_year
