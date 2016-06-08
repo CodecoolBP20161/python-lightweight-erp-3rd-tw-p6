@@ -157,6 +157,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     for row in table:
         days = int(row[5]) * 365 + int(row[3]) * 31 + int(row[4])
         if days >= from_date and days <= to_date:
-            filtered_items.append(row)
+            filtered_items.append([row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5])])
 
-    return filtered_items
+    return(filtered_items)
