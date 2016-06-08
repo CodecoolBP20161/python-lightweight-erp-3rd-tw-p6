@@ -20,7 +20,7 @@ common = SourceFileLoader("common", current_file_path + "/../data_manager.py").l
 
 # start this manager by a menu
 def start():
-    table = data_manager.get_table_from_file("crm/customers.csv")
+    table = data_manager.get_table_from_file("crm/customers_test.csv")
     id_ = 'this needs to be changed in each function when called as necessary'
 
     while True:
@@ -130,9 +130,10 @@ def update(table, id_):
 # return type: string (id) - if there are more than one longest name, return the first of descending alphabetical order
 def get_longest_name_id(table):
 
-    # your code
+    ajdi = sorted(table, key=lambda record: (len(record[1]), record[1]))
 
-    pass
+    print(ajdi)
+    return(ajdi)
 
 
 # the question: Which customers has subscribed to the newsletter?
