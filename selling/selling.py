@@ -159,4 +159,4 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         if days >= from_date and days <= to_date:
             filtered_items.append(row)
 
-return filtered_items
+    return filtered_items
