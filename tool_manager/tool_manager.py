@@ -26,7 +26,7 @@ table = data_manager.get_table_from_file("tool_manager/tools.csv")
 def start():
 
     while True:
-        ui.print_menu(title="Options", list_options=["Show-table", "Add", "Remove", "Update"], exit_message="Quit")
+        ui.print_menu(title="Options", list_options=["Show-table", "Add", "Remove", "Update", "get_available_tools"], exit_message="Quit")
         user = ui.get_inputs(list_titles=["Please choose a number: "], title="")[0]
         if user == "0":
             break
@@ -40,6 +40,8 @@ def start():
         elif user == "4":
             id_ = ui.get_inputs(list_titles=["Id:"], title="")
             update(table, id_)
+        elif user == "5":
+            get_available_tools(table)
 
 
 # print the default table of records from the file
@@ -84,10 +86,12 @@ def update(table, id_):
 # the question: Which items has not yet exceeded their durability ?
 # return type: list of lists (the inner list contains the whole row with their actual data types)
 def get_available_tools(table):
+    a = []
+    for row in table:
+        if int(row[3]) + int(row[4]) >= 2016:
+            a.append([row[0], row[1], row[2], int(row[3]), int(row[4])])
+    return(a)
 
-    # your code
-
-    pass
 
 
 # the question: What are the average durability time for each manufacturer?
