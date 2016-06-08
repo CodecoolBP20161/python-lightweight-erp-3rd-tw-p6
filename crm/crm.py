@@ -20,7 +20,7 @@ common = SourceFileLoader("common", current_file_path + "/../data_manager.py").l
 
 # start this manager by a menu
 def start():
-    table = data_manager.get_table_from_file("crm/customers_test.csv")
+    table = data_manager.get_table_from_file("crm/customers.csv")
     id_ = 'this needs to be changed in each function when called as necessary'
 
     while True:
@@ -129,17 +129,38 @@ def update(table, id_):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first of descending alphabetical order
 def get_longest_name_id(table):
+    # I am keeping this as future reference
+    max_len = 0
+    id_list = []
+    longest_name = ['', '']
 
-    ajdi = sorted(table, key=lambda record: (len(record[1]), record[1]))
+    for n, record in enumerate(table):
+        if len(record[1]) > max_len:
+            max_len = len(table[n][1])
 
-    print(ajdi)
-    return(ajdi)
+    for n, record in enumerate(table):
+        if len(record[1]) == max_len:
+            id_list.append([table[n][0], table[n][1]])
+
+    longest_name[0] = id_list[0][0]
+    longest_name[1] = id_list[0][1]
+
+    for n, name in enumerate(id_list):
+        if name[1] < longest_name[1]:
+            longest_name[0] = id_list[n][0]
+            longest_name[1] = id_list[n][1]
+
+    return(longest_name[0])
 
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
 def get_subscribed_emails(table):
 
-    # your code
+    subscribed_list = []
 
-    pass
+    for n, record in enumerate(table):
+        if record[3] == '1':
+            subscribed_list.append(table[n][2] + ';' + table[n][1])
+
+    return(subscribed_list)
