@@ -13,7 +13,6 @@ import copy
 
 def print_table(table, title_list=""):
     """ Pretty prints a table or prints a simple string. """
-
     if isinstance(table, str):
         print(table)
         return
