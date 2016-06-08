@@ -9,16 +9,12 @@ def summary(my_list):
     return solution
 
 
-def get_index(my_list, item):
+def id_number(my_list, item):
     index = -1
     for i in my_list:
         index += 1
         if i == item:
             return index
-
-
-def printer(item):
-    print(item)
 
 
 # generate and return a unique and random
